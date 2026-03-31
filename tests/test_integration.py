@@ -35,6 +35,20 @@ def test_get_apartment_costs():
     parameters = Parameters()
     manager = Manager(parameters)
     
+    assert manager.get_apartment_costs('apart-polanka') == 910.0
+    assert manager.get_apartment_costs('apart-polanka', 2025) == 910.0
+    assert manager.get_apartment_costs('apart-polanka', 2024) == 0.0
+    assert manager.get_apartment_costs('apart-polanka', 2025, 13) == 0.0
+    assert manager.get_apartment_costs('Nie instniejace mieszkanie') is None
     assert manager.get_apartment_costs('Nie instniejace mieszkanie', 2024, 3) is None
     assert manager.get_apartment_costs('apart-polanka', 2000, 3) == 0.0
     assert manager.get_apartment_costs('apart-polanka', 2025, 1) == (760.0 + 150.0)
+    
+def test_apartment_settlement():
+    parameters = Parameters()
+    manager = Manager(parameters)
+    
+    assert settlement.apartment == "apart-polanka"
+    assert settlement.year == 2025
+    assert settlement.month == 1
+    

@@ -24,12 +24,17 @@ class Manager:
                 return False
         return True
     
-    def get_apartment_costs(self, apartment_key: str, year: int, month: int) -> float:
+def get_apartment_costs(self, apartment_key, year=None, month=None):
         if apartment_key not in self.apartments:
             return None
-        koszty = 0.0
+        
+        if month is not None and not (1 <= month <=12):
+            raise ValueError(f"Nieprawidłowy miesiac: {month}  Miesiąc musi być z przedzialu 1-12")
+        koszt = 0.0
+
         for bill in self.bills:
-            if (bill.apartment == apartment_key and bill.settlement_year == year and bill.settlement_month == month):
-                koszty += bill.amount_pln
-                
-        return koszty   
+            if bill.apartment == apartment_key and (bill.settlement_year==year or year is None) and (bill.settlement_month==month is None):
+                    koszt += bill.amount_pln
+                    
+        return koszt 
+    
